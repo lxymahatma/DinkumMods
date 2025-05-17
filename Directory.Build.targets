@@ -1,0 +1,51 @@
+<Project>
+    <Target Name="GeneratePluginInfo" BeforeTargets="BeforeCompile;CoreCompile" Inputs="$(MSBuildAllProjects)" Outputs="$(IntermediateOutputPath)AssemblyInfo.cs">
+        <PropertyGroup>
+            <GeneratedText><![CDATA[
+namespace $(RootNamespace)%3B
+internal static class PluginBuildInfo
+{
+    public const string PLUGIN_GUID = "lxy.Dinkum.$(RootNamespace)"%3B
+    public const string PLUGIN_NAME = "lxy.Dinkum.$(RootNamespace)"%3B
+    public const string PLUGIN_VERSION = "$(Version)"%3B
+}
+      ]]></GeneratedText>
+            <GeneratedFilePath>$(IntermediateOutputPath)PluginInfo.cs</GeneratedFilePath>
+        </PropertyGroup>
+
+        <ItemGroup>
+            <Compile Include="$(GeneratedFilePath)"/>
+            <FileWrites Include="$(GeneratedFilePath)"/>
+        </ItemGroup>
+
+        <WriteLinesToFile Lines="$(GeneratedText)" File="$(GeneratedFilePath)" WriteOnlyWhenDifferent="true" Overwrite="true"/>
+    </Target>
+
+    <Target Name="GenerateAssemblyInfo" DependsOnTargets="GeneratePluginInfo" Inputs="$(MSBuildAllProjects)" Outputs="$(IntermediateOutputPath)AssemblyInfo.cs">
+        <PropertyGroup>
+            <GeneratedText><![CDATA[
+using System.Reflection%3B
+using $(RootNamespace)%3B
+
+[assembly: AssemblyTitle("$(RootNamespace)")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("$(RootNamespace)")]
+[assembly: AssemblyCopyright("Copyright © lxy 2025")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+[assembly: AssemblyVersion(PluginBuildInfo.PLUGIN_VERSION)]
+[assembly: AssemblyFileVersion(PluginBuildInfo.PLUGIN_VERSION)]
+      ]]></GeneratedText>
+            <GeneratedFilePath>$(IntermediateOutputPath)AssemblyInfo.cs</GeneratedFilePath>
+        </PropertyGroup>
+
+        <ItemGroup>
+            <Compile Include="$(GeneratedFilePath)"/>
+            <FileWrites Include="$(GeneratedFilePath)"/>
+        </ItemGroup>
+
+        <WriteLinesToFile Lines="$(GeneratedText)" File="$(GeneratedFilePath)" WriteOnlyWhenDifferent="true" Overwrite="true"/>
+    </Target>
+</Project>

@@ -1,0 +1,60 @@
+<Project>
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <TargetFramework>net472</TargetFramework>
+        <LangVersion>13</LangVersion>
+        <ImplicitUsings>true</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <BaseOutputPath>$(SolutionDir)bin\</BaseOutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <GameDirectory>C:\Program Files (x86)\Steam\steamapps\common\Dinkum</GameDirectory>
+        <BepInExDirectory>$(GameDirectory)\BepInEx</BepInExDirectory>
+        <BepInExCoreDirectory>$(BepInExDirectory)\core</BepInExCoreDirectory>
+        <ManagedDirectory>$(GameDirectory)\Dinkum_Data\Managed</ManagedDirectory>
+    </PropertyGroup>
+
+    <ItemDefinitionGroup>
+        <Reference Private="false"/>
+    </ItemDefinitionGroup>
+
+    <ItemGroup>
+        <Reference Include="0Harmony">
+            <HintPath>$(BepInExCoreDirectory)\0Harmony.dll</HintPath>
+        </Reference>
+        <Reference Include="Assembly-CSharp">
+            <HintPath>$(ManagedDirectory)\Assembly-CSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="BepInEx.Core">
+            <HintPath>$(BepInExCoreDirectory)\BepInEx.Core.dll</HintPath>
+        </Reference>
+        <Reference Include="BepInEx.Unity">
+            <HintPath>$(BepInExCoreDirectory)\BepInEx.Unity.dll</HintPath>
+        </Reference>
+        <Reference Include="Mirror">
+            <HintPath>$(ManagedDirectory)\Mirror.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine">
+            <HintPath>$(ManagedDirectory)\UnityEngine.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>$(ManagedDirectory)\UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule">
+            <HintPath>$(ManagedDirectory)\UnityEngine.InputLegacyModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.InputModule">
+            <HintPath>$(ManagedDirectory)\UnityEngine.InputModule.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <Target Name="Copy Mod" AfterTargets="Build">
+        <PropertyGroup>
+            <FinalAssemblyName>lxy.Dinkum.$(AssemblyName)</FinalAssemblyName>
+        </PropertyGroup>
+        <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(BepInExDirectory)\plugins\$(FinalAssemblyName).dll" SkipUnchangedFiles="true"/>
+        <Message Importance="high" Text="Copying $(TargetPath) to $(BepInExDirectory)\plugins\$(FinalAssemblyName).dll"/>
+    </Target>
+</Project>

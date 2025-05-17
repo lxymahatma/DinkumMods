@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Version>1.2.0</Version>
+        <DefineConstants>$(DefineConstants);TeleportHome</DefineConstants>
+    </PropertyGroup>
+    <Import Project="..\Dinkum.Shared\Dinkum.Shared.projitems" Label="Shared"/>
+</Project>
