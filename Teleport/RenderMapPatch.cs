@@ -73,3 +73,33 @@ internal static class RenderMapPatch
         }
     }*/
 }
+
+[HarmonyPatch(typeof(EntryExit), "OnEnable")]
+internal static class EntryExitPatch
+{
+    [HarmonyPostfix]
+    private static void Postfix(EntryExit __instance)
+    {
+        if (!Plugin.TeleportInsideHouse.Value || !__instance.isPlayerHouseDoor)
+        {
+            return;
+        }
+
+        Plugin.HomePosition = __instance.linkedTo.transform.position + __instance.linkedTo.forward * 0.8f;
+    }
+}
+
+[HarmonyPatch(typeof(HouseSave), nameof(HouseSave.loadDetails))]
+internal static class HouseDetailsPatch
+{
+    [HarmonyPostfix]
+    private static void Postfix(HouseDetails copyTo)
+    {
+        if (Plugin.TeleportInsideHouse.Value || !copyTo.isThePlayersHouse)
+        {
+            return;
+        }
+
+        Plugin.HomePosition = new Vector3(copyTo.xPos * 2, 5f, copyTo.yPos * 2);
+    }
+}

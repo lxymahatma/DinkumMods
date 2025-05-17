@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using BepInEx.Configuration;
 using TinyResort;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public sealed partial class Plugin : BaseUnityPlugin
     internal static Vector3 HomePosition { get; set; }
     internal static Vector3 MinePosition { get; set; }
     internal static Dictionary<string, Transform> FriendsDictionary { get; } = [];
+    internal static ConfigEntry<bool> TeleportInsideHouse { get; private set; }
 
     private void Awake()
     {
@@ -23,8 +25,10 @@ public sealed partial class Plugin : BaseUnityPlugin
         _plugin.AddCommand("position", "Teleport to coordinates", TeleportToPosition, "X Y [Z]");
         _plugin.AddCommand("p", "Teleport to coordinates", TeleportToPosition, "X Y [Z]");
 
-        /*_plugin.AddCommand("home", "Teleport to home", TeleportToHome);
-        _plugin.AddCommand("h", "Teleport to home", TeleportToHome);*/
+        _plugin.AddCommand("home", "Teleport to home", TeleportToHome);
+        _plugin.AddCommand("h", "Teleport to home", TeleportToHome);
+
+        TeleportInsideHouse = Config.Bind("Teleport", "TeleportInsideHouse", true, "Teleport inside house if possible");
 
         _plugin.harmony.PatchAll();
     }
