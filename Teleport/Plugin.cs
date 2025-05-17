@@ -19,14 +19,10 @@ public sealed partial class Plugin : BaseUnityPlugin
     {
         _plugin = this.Initialize(-1, "tp");
 
-        _plugin.AddCommand("friend", "Teleport to a friend", TeleportToFriend, "Friend Name");
-        _plugin.AddCommand("f", "Teleport to a friend", TeleportToFriend, "Friend Name");
-
-        _plugin.AddCommand("position", "Teleport to coordinates", TeleportToPosition, "X Y [Z]");
-        _plugin.AddCommand("p", "Teleport to coordinates", TeleportToPosition, "X Y [Z]");
-
-        _plugin.AddCommand("home", "Teleport to home", TeleportToHome);
-        _plugin.AddCommand("h", "Teleport to home", TeleportToHome);
+        _plugin.AddCommands("friend", ["f"], "Teleport to a friend", TeleportToFriend, "Friend Name");
+        _plugin.AddCommands("position", ["p"], "Teleport to coordinates", TeleportToPosition, "X Y [Z]");
+        _plugin.AddCommands("home", ["h"], "Teleport to home (Only works in Main Land)", TeleportToHome);
+        _plugin.AddCommands("mine", ["m"], "Teleport to mine (Only works in Underground)", TeleportToMine);
 
         TeleportInsideHouse = Config.Bind("Teleport", "TeleportInsideHouse", true, "Teleport inside house if possible");
 
@@ -82,5 +78,11 @@ public sealed partial class Plugin : BaseUnityPlugin
     {
         UpdateCharacterPosition(HomePosition);
         return "Teleported to home.";
+    }
+
+    private static string TeleportToMine(string[] args)
+    {
+        UpdateCharacterPosition(MinePosition);
+        return "Teleported to mine.";
     }
 }
