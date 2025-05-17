@@ -61,7 +61,7 @@ public sealed partial class Plugin : BaseUnityPlugin
             return "Invalid coordinates.";
         }
 
-        var z = 2f;
+        var z = 5f;
         if (args.Length == 3)
         {
             if (!float.TryParse(args[2], out z))
